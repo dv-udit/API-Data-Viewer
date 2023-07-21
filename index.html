@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Box and Button Example</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div>
+        <input type="text" id="inputBox" placeholder="Enter an ID from 1 to 200">
+        <button onclick="fetchData()">Submit</button>
+    </div>
+    <div id="responseDiv"></div>
+
+    <script>
+        async function fetchData() {
+            const inputText = document.getElementById("inputBox").value;
+
+            try {
+                const response = await fetch('http://localhost:8081/getTodoData', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ searchString: inputText })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data from the API');
+                }
+
+                const data = await response.json();
+                const responseDiv = document.getElementById("responseDiv");
+
+                responseDiv.innerHTML = `
+                    <p>ID: ${data.id}</p>
+                    <p>Title: ${data.title}</p>
+                    <p>Completed: ${data.completed}</p>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                const responseDiv = document.getElementById("responseDiv");
+                responseDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

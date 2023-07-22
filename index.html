@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Box and Button Example</title>
+    <title>API Data Fetcher</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
+    <div id="responseDiv"></div>
+
+    <div id="inputContainer">
         <input type="text" id="inputBox" placeholder="Enter an ID from 1 to 200">
         <button onclick="fetchData()">Submit</button>
     </div>
-    <div id="responseDiv"></div>
 
     <script>
         async function fetchData() {

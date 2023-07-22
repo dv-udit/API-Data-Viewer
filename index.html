@@ -7,13 +7,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
+    <div id="responseDiv"></div>
+
+    <div id="inputContainer">
         <input type="text" id="inputBox" placeholder="Enter an ID from 1 to 200">
         <button onclick="fetchData()">Submit</button>
     </div>
-    <div id="responseDiv"></div>
 
     <script>
+        // Function to append data to the #responseDiv
+        function appendDataToResponseDiv(data) {
+            const responseDiv = document.getElementById("responseDiv");
+            const newContent = `
+                <p>ID: ${data.id}</p>
+                <p>Title: ${data.title}</p>
+                <p>Completed: ${data.completed}</p>
+            `;
+            responseDiv.innerHTML += newContent;
+        }
+
         async function fetchData() {
             const inputText = document.getElementById("inputBox").value;
 
@@ -31,17 +43,13 @@
                 }
 
                 const data = await response.json();
-                const responseDiv = document.getElementById("responseDiv");
 
-                responseDiv.innerHTML = `
-                    <p>ID: ${data.id}</p>
-                    <p>Title: ${data.title}</p>
-                    <p>Completed: ${data.completed}</p>
-                `;
+                // Append the new data to the #responseDiv
+                appendDataToResponseDiv(data);
             } catch (error) {
                 console.error('Error:', error);
                 const responseDiv = document.getElementById("responseDiv");
-                responseDiv.innerHTML = `Error: ${error.message}`;
+                responseDiv.innerHTML += `<p>Error: ${error.message}</p>`;
             }
         }
     </script>
